@@ -1,0 +1,95 @@
+[
+  ["Milk", "Bread"],
+  ["Milk", "Bread", "Eggs"],
+  ["Milk", "Cookies"],
+  ["Milk", "Eggs"],
+  ["Milk", "Bread"],
+  ["Milk", "Coffee"],
+
+  ["Bread", "Butter"],
+  ["Bread", "Jam"],
+  ["Bread", "Eggs"],
+  ["Bread", "Milk"],
+  ["Bread", "Cheese"],
+
+  ["Eggs", "Bread"],
+  ["Eggs", "Milk"],
+  ["Eggs", "Butter"],
+  ["Eggs", "Salt"],
+
+  ["Rice", "Dal"],
+  ["Rice", "Dal", "Oil"],
+  ["Rice", "Salt"],
+  ["Rice", "Spices"],
+  ["Rice", "Dal"],
+  ["Rice", "Vegetables"],
+
+  ["Dal", "Rice"],
+  ["Dal", "Oil"],
+  ["Dal", "Spices"],
+  ["Dal", "Salt"],
+
+  ["Chips", "Cold Drink"],
+  ["Chips", "Chocolate"],
+  ["Chips", "Cold Drink"],
+  ["Chips", "Nachos"],
+  ["Chips", "Cold Drink", "Nachos"],
+
+  ["Cold Drink", "Chips"],
+  ["Cold Drink", "Pizza"],
+  ["Cold Drink", "Burger"],
+  ["Cold Drink", "Fries"],
+  ["Cold Drink", "Ice Cream"],
+
+  ["Chocolate", "Ice Cream"],
+  ["Chocolate", "Cookies"],
+  ["Chocolate", "Cold Drink"],
+
+  ["Ice Cream", "Chocolate"],
+  ["Ice Cream", "Cold Drink"],
+
+  ["Cookies", "Milk"],
+  ["Cookies", "Chocolate"],
+  ["Cookies", "Coffee"],
+
+  ["Coffee", "Cookies"],
+  ["Coffee", "Milk"],
+
+  ["Butter", "Bread"],
+  ["Butter", "Jam"],
+
+  ["Jam", "Bread"],
+  ["Jam", "Butter"],
+
+  ["Oil", "Rice"],
+  ["Oil", "Spices"],
+
+  ["Spices", "Rice"],
+  ["Spices", "Dal"],
+
+  ["Burger", "Fries"],
+  ["Burger", "Cold Drink"],
+  ["Burger", "Cheese"],
+
+  ["Pizza", "Cold Drink"],
+  ["Pizza", "Garlic Bread"],
+  ["Pizza", "Cheese"],
+
+  ["Fries", "Cold Drink"],
+  ["Fries", "Burger"],
+
+  ["Nachos", "Cold Drink"],
+  ["Nachos", "Cheese"],
+
+  ["Cheese", "Pizza"],
+  ["Cheese", "Burger"],
+  ["Cheese", "Bread"],
+
+  ["Salt", "Rice"],
+  ["Salt", "Dal"],
+
+  ["Garlic Bread", "Pizza"],
+
+  ["Vegetables", "Rice"],
+  ["Vegetables", "Spices"]
+]

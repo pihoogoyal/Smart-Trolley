@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart Trolley</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=DM+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Space Grotesk', sans-serif;
+      background: #0b1220;
+      color: white;
+    }
+
+    .header {
+      padding: 15px 25px;
+      background: #0f172a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .header h2 {
+      margin: 0;
+      color: #22c55e;
+    }
+
+    .wrapper {
+      padding: 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .welcome {
+      background: #111827;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+
+    .panel {
+      background: #111827;
+      border-radius: 15px;
+      padding: 15px;
+    }
+
+    .panel h3 {
+      margin-top: 0;
+      color: #94a3b8;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 10px;
+      background: #1f2937;
+    }
+
+    .price {
+      color: #38bdf8;
+      font-family: 'DM Mono';
+    }
+
+    .remove-btn {
+      background: red;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    /* 🔥 UPDATED AI STYLE */
+    .suggestion {
+      background: linear-gradient(90deg,#1f2937,#064e3b);
+      padding: 10px;
+      border-radius: 10px;
+      margin: 10px 0;
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    .total-box {
+      margin-top: 20px;
+      background: #111827;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .total {
+      background: #064e3b;
+      color: #22c55e;
+      font-size: 22px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="header">
+  <h2>🛒 SMART TROLLEY</h2>
+</div>
+
+<div class="wrapper">
+
+  <div class="welcome">
+    <div>
+      <h3>Welcome back 👋</h3>
+      <p>Your AI-powered trolley is live and scanning</p>
+    </div>
+    <div id="time"></div>
+  </div>
+
+  <div class="grid">
+
+    <!-- CART -->
+    <div class="panel">
+      <h3>CART ITEMS</h3>
+      <div id="items"></div>
+    </div>
+
+    <!-- AI -->
+    <div class="panel">
+      <h3>AI RECOMMENDATIONS</h3>
+      <div id="ai"></div>
+    </div>
+
+  </div>
+
+  <!-- TOTAL -->
+  <div class="total-box">
+    <div class="row">
+      <span>Subtotal</span>
+      <span id="subtotal">₹0</span>
+    </div>
+    <div class="row">
+      <span>GST (5%)</span>
+      <span id="gst">₹0</span>
+    </div>
+    <div class="row total">
+      <span>Total Payable</span>
+      <span id="total">₹0</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+// CLOCK
+setInterval(()=>{
+  document.getElementById("time").innerText = new Date().toLocaleTimeString();
+},1000);
+
+let items = [];
+
+// FETCH
+function fetchData() {
+  fetch("/data?t=" + new Date().getTime())
+    .then(res => res.json())
+    .then(data => {
+      items = data;
+      updateUI();
+    });
+}
+
+// UI UPDATE
+function updateUI() {
+  let cart = document.getElementById("items");
+  let ai = document.getElementById("ai");
+
+  cart.innerHTML = "";
+  ai.innerHTML = "";
+
+  let subtotal = 0;
+
+  // EMPTY STATE
+  if(items.length === 0){
+    cart.innerHTML = "<p>No items scanned yet...</p>";
+    ai.innerHTML = "<p>Scan items to get AI suggestions 🤖</p>";
+  }
+
+  let shownSuggestions = new Set();
+
+  items.forEach((obj,index)=>{
+    let parts = obj.item.split(",");
+    let name = parts[0];
+    let price = parseInt(parts[1]);
+
+    subtotal += price;
+
+    // CART ITEM
+    let div = document.createElement("div");
+    div.className = "cart-item";
+    div.innerHTML = `
+      <span>${name}</span>
+      <span class="price">₹${price}</span>
+      <button class="remove-btn" onclick="removeItem(${index})">X</button>
+    `;
+    cart.appendChild(div);
+
+    // UNIQUE AI SUGGESTION
+    if(obj.suggestion && !shownSuggestions.has(obj.suggestion)){
+      shownSuggestions.add(obj.suggestion);
+
+      let s = document.createElement("div");
+      s.className = "suggestion";
+      s.innerText = obj.suggestion;
+      ai.appendChild(s);
+    }
+  });
+
+  let gst = subtotal * 0.05;
+  let total = subtotal + gst;
+
+  document.getElementById("subtotal").innerText = "₹" + subtotal;
+  document.getElementById("gst").innerText = "₹" + gst.toFixed(2);
+  document.getElementById("total").innerText = "₹" + total.toFixed(2);
+}
+
+// REMOVE
+function removeItem(i){
+  items.splice(i,1);
+  updateUI();
+}
+
+// AUTO UPDATE (SMOOTH)
+setInterval(fetchData,1500);
+fetchData();
+
+</script>
+
+</body>
+</html>
